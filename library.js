@@ -53,10 +53,6 @@ var getMediaInfo = function(index) {
     }
 };
 
-var readConfig = function () {
-
-};
-
 exports.getSongArr = function() {
     return songArr.slice(0, songReadyIndex + 1);
 }
