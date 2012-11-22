@@ -91,7 +91,8 @@ app.get('/song/:id', function(req, res) {
     var info = {};
     var range = typeof req.headers.range === "string" ? req.headers.range : undefined;
 
-    info.path = library.getSong(req.params.id).path;
+    var song = library.getSong(req.params.id);
+    info.path = song.path;
     info.file = info.path.match(/(.*[\/|\\])?(.+?)$/)[2];
 
     try {
@@ -115,7 +116,9 @@ app.get('/song/:id', function(req, res) {
     }
     info.length = info.end - info.start + 1;
 
-    downloadHeader(res, info, 'audio/mp3');
+    downloadHeader(res, info);
+
+    console.log('id=' + req.params.id + ', start=' + info.start + ', end=' + info.end + ', song=' + JSON.stringify(song));
 
     stream = fs.createReadStream(info.path, { flags: "r", start: info.start, end: info.end });
     stream.pipe(res);
@@ -127,7 +130,7 @@ http.createServer(app).listen(app.get('port'), function() {
   console.log("Express server listening on port " + app.get('port'));
 });
 
-var downloadHeader = function (res, info, type) {
+var downloadHeader = function (res, info) {
     var code = 200;
     var header;
 

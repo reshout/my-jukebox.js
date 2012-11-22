@@ -12,17 +12,19 @@ var songReadyIndex = 0;
 exports.init = function() {
     var i = 0;
     var j = 0;
+    var index = 0;
     var musicDir;
     var files;
     var song;
     var filename;
 
-    for ( ; i < musicDirs.length; i++) {
+    for (i= 0; i < musicDirs.length; i++) {
         musicDir = musicDirs[i];
         files = fs.readdirSync(musicDir);
-        for ( ; j < files.length; j++) {
+        console.log('scanning ' + musicDir);
+        for (j = 0; j < files.length; j++) {
             if (path.extname(files[j]) === '.mp3') {
-                song = { 'id' : j
+                song = { 'id' : index++
                     , 'path' : path.join(musicDir, files[j])
                     , 'filename' : files[j]
                     , 'title' : ''
@@ -32,11 +34,13 @@ exports.init = function() {
             }
         }
     }
+    console.log(songArr.length + ' songs indexed');
 
-    resolve(0);
+    // start to get media information
+    getMediaInfo(0);
 }
 
-var resolve = function(index) {
+var getMediaInfo = function(index) {
     if (index < songArr.length) {
         mediainfo(songArr[index].path, function(err, res) {
             if (res && res[0]) {
@@ -45,8 +49,10 @@ var resolve = function(index) {
                 songArr[index].album = res[0].album || '';
             }
             songReadyIndex = index;
-            resolve(index + 1);
+            getMediaInfo(index + 1);
         });
+    } else {
+        console.log('finish to get media info for ' + songArr.length);
     }
 }
 
