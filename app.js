@@ -87,16 +87,16 @@ app.get('/robots.txt', function(req, res) {
 });
 
 app.get('/song/:id', function(req, res) {
+    var ip;
     var stream;
     var stat;
     var info = {};
     var range = typeof req.headers.range === "string" ? req.headers.range : undefined;
 
     var song = library.getSong(req.params.id);
-    info.path = song.path;
-    info.file = info.path.match(/(.*[\/|\\])?(.+?)$/)[2];
-
     try {
+        info.path = song.path;
+        info.file = info.path.match(/(.*[\/|\\])?(.+?)$/)[2];
         stat = fs.statSync(info.path);
     } catch (e) {
         res.writeHead(404);
@@ -119,7 +119,8 @@ app.get('/song/:id', function(req, res) {
 
     downloadHeader(res, info);
 
-    console.log('id=' + req.params.id + ', start=' + info.start + ', end=' + info.end + ', song=' + JSON.stringify(song));
+    ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
+    console.log('ip=' + ip + ',id=' + req.params.id + ',start=' + info.start + ',end=' + info.end + ', song=' + JSON.stringify(song));
 
     stream = fs.createReadStream(info.path, { flags: "r", start: info.start, end: info.end });
     stream.pipe(res);
