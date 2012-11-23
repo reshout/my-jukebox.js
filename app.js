@@ -81,19 +81,27 @@ app.get('/', function(req, res) {
     res.render('library', { 'title' : 'my-jukebox.js', 'songArr' : library.getSongArr() });
 });
 
+app.get('/artist/:artist', function(req, res) {
+    res.render('library', { 'title' : 'my-jukebox.js', 'songArr' : library.getSongArrByArtist(req.params.artist) });
+});
+
+app.get('/album/:album', function(req, res) {
+    res.render('library', { 'title' : 'my-jukebox.js', 'songArr' : library.getSongArrByAlbum(req.params.album) });
+});
+
 app.get('/robots.txt', function(req, res) {
     res.writeHead(200, { 'Content-Type' : 'text/plain' });
     res.end('User-agent : *\ndisallow : /');
 });
 
-app.get('/song/:id', function(req, res) {
+app.get('/fetch/:id', function(req, res) {
     var ip;
     var stream;
     var stat;
     var info = {};
     var range = typeof req.headers.range === "string" ? req.headers.range : undefined;
 
-    var song = library.getSong(req.params.id);
+    var song = library.getSongById(req.params.id);
     try {
         info.path = song.path;
         info.file = info.path.match(/(.*[\/|\\])?(.+?)$/)[2];

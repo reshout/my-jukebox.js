@@ -6,6 +6,8 @@ var musicDirs = settings.music_dirs;
 var songArr = [];
 var songReadyIndex = 0;
 var songIndex = 0;
+var songArtistMap = {};
+var songAlbumMap = {};
 
 exports.init = function() {
     var i;
@@ -61,6 +63,8 @@ var getMediaInfo = function(index) {
                 songArr[index].artist = res[0].performer || '';
                 songArr[index].title = res[0].track_name || '';
                 songArr[index].album = res[0].album || '';
+                putSongIntoArtistMap(songArr[index]);
+                putSongIntoAlbumMap(songArr[index]);
             }
             songReadyIndex = index;
             getMediaInfo(index + 1);
@@ -70,10 +74,48 @@ var getMediaInfo = function(index) {
     }
 };
 
+var putSongIntoArtistMap = function(song) {
+    if (song.artist) {
+        var list = songArtistMap[song.artist];
+        if (!list) {
+            list = [];
+            songArtistMap[song.artist] = list;
+        }
+        list.push(song);
+    }
+}
+
+var putSongIntoAlbumMap = function(song) {
+    if (song.artist) {
+        var list = songAlbumMap[song.album];
+        if (!list) {
+            list = [];
+            songAlbumMap[song.album] = list;
+        }
+        list.push(song);
+    }
+}
+
 exports.getSongArr = function() {
     return songArr.slice(0, songReadyIndex + 1);
 }
 
-exports.getSong = function(id) {
+exports.getSongById = function(id) {
     return songArr[id];
+}
+
+exports.getSongArrByArtist = function(artist) {
+    var list = songArtistMap[artist];
+    if (!list) {
+        list = [];
+    }
+    return list;
+}
+
+exports.getSongArrByAlbum = function(album) {
+    var list = songAlbumMap[album];
+    if (!list) {
+        list = [];
+    }
+    return songAlbumMap[album];
 }
