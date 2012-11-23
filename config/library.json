@@ -1,0 +1,7 @@
+{
+    "music_dirs" : [ "/data/media/음악_네이버뮤직"
+        , "/data/media/음악_다음뮤직"
+        , "/data/media/음악_벅스"
+        , "/data/media/음악_CD"
+        , "/data/media/라디오" ]
+}
