@@ -61,7 +61,7 @@ var mimeTypes = {
 var app = express();
 
 app.configure(function() {
-  app.set('port', process.env.PORT || 57753);
+  app.set('port', process.env.PORT || 57754);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
@@ -77,7 +77,7 @@ app.configure('development', function() {
 });
 
 app.get('/', function(req, res) {
-    res.render('library', { 'songArr' : library.getSongArr() });
+    res.render('library', { 'title' : 'my-jukebox.js', 'songArr' : library.getSongArr() });
 });
 
 app.get('/robots.txt', function(req, res) {

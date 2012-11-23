@@ -1,11 +1,7 @@
 var mediainfo = require("mediainfo");
 var fs = require('fs');
 var path = require('path');
-var musicDirs = [ "/data/media/음악_네이버뮤직"
-    , "/data/media/음악_다음뮤직"
-    , "/data/media/음악_벅스"
-    , "/data/media/음악_CD"
-    , "/data/media/라디오" ];
+var musicDirs = [ "/data/media/음악_네이버뮤직", "/data/media/음악_CD"];
 var songArr = [];
 var songReadyIndex = 0;
 
@@ -52,7 +48,7 @@ var getMediaInfo = function(index) {
             getMediaInfo(index + 1);
         });
     } else {
-        console.log('finish to get media info for ' + songArr.length);
+        console.log('finish to get media information for ' + songArr.length + ' songs');
     }
 }
 
