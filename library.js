@@ -5,36 +5,53 @@ var settings = require('konphyg')(__dirname + '/config/')('library');
 var musicDirs = settings.music_dirs;
 var songArr = [];
 var songReadyIndex = 0;
+var songIndex = 0;
 
 exports.init = function() {
-    var i = 0;
-    var j = 0;
-    var index = 0;
+    var i;
     var musicDir;
-    var files;
-    var song;
-    var filename;
 
+    songIndex = 0;
     for (i= 0; i < musicDirs.length; i++) {
         musicDir = musicDirs[i];
-        files = fs.readdirSync(musicDir);
         console.log('scanning ' + musicDir);
-        for (j = 0; j < files.length; j++) {
-            if (path.extname(files[j]) === '.mp3') {
-                song = { 'id' : index++
-                    , 'path' : path.join(musicDir, files[j])
-                    , 'filename' : files[j]
+        scanMedia(musicDir);
+    }
+    console.log(songArr.length + ' songs indexed');
+
+    // start to get media information
+    getMediaInfo(0);
+}
+
+var scanMedia = function(mediaPath) {
+    var i;
+    var files;
+    var stat;
+    var basename;
+
+    try {
+        stat = fs.statSync(mediaPath);
+        if (stat.isFile()) {
+            basename = path.basename(mediaPath);
+            if (path.extname(basename) === '.mp3') {
+                song = { 'id' : songIndex++
+                    , 'path' : mediaPath
+                    , 'filename' : basename
                     , 'title' : ''
                     , 'album' : ''
                     , 'artist' : '' };
                 songArr.push(song);
             }
         }
+        else if (stat.isDirectory()) {
+            files = fs.readdirSync(mediaPath);
+            for (i = 0; i < files.length; i++) {
+                scanMedia(path.join(mediaPath, files[i]));
+            }
+        }
+    } catch (e) {
+        ;
     }
-    console.log(songArr.length + ' songs indexed');
-
-    // start to get media information
-    getMediaInfo(0);
 }
 
 var getMediaInfo = function(index) {

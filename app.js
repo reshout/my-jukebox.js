@@ -120,7 +120,7 @@ app.get('/song/:id', function(req, res) {
     downloadHeader(res, info);
 
     ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
-    console.log('ip=' + ip + ',id=' + req.params.id + ',start=' + info.start + ',end=' + info.end + ', song=' + JSON.stringify(song));
+    console.log('ip=' + ip + ',id=' + req.params.id + ',start=' + info.start + ',end=' + info.end + ',song=' + JSON.stringify(song));
 
     stream = fs.createReadStream(info.path, { flags: "r", start: info.start, end: info.end });
     stream.pipe(res);
