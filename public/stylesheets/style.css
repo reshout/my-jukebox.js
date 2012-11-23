@@ -25,3 +25,14 @@ a.album {
 a.title {
   color: #2189c6;
 }
+
+#library { width: 820px; clear: both; margin: 20px 0 10px; background-color: #EBEBEB; }
+#library .viewport { width: 800px; height: 600px; overflow: hidden; position: relative; }
+#library .overview { list-style: none; position: absolute; left: 0; top: 0; }
+#library .thumb .end,
+#library .thumb { background-color: #003D5D; }
+#library .scrollbar { position: relative; float: right; width: 15px; }
+#library .track { background-color: #D8EEFD; height: 100%; width:13px; position: relative; padding: 0 1px; }
+#library .thumb { height: 20px; width: 13px; cursor: pointer; overflow: hidden; position: absolute; top: 0; }
+#library .thumb .end { overflow: hidden; height: 5px; width: 13px; }
+#library .disable{ display: none; }

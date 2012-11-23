@@ -3,5 +3,11 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    script(type='text/javascript', src='/javascripts/jquery-1.8.3.min.js')
+    script(type='text/javascript', src='/javascripts/jquery.tinyscrollbar.min.js')
+    script(type='text/javascript')
+        $(document).ready(function() {
+            $('#library').tinyscrollbar();
+        });
   body
     block content
