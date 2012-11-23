@@ -1,7 +1,13 @@
 extends layout
 
 block content
+    - var song;
     - for(var i = 0; i < songArr.length; i++) {
+    -     song = songArr[i];
         div
-            a(href='/fetch/#{songArr[i].id}', target='_blank') No: #{i}, Artist: #{songArr[i].artist}, Album: #{songArr[i].album}, Title: #{songArr[i].title}
+            a(href='/artist/#{song.artist}', class='artist') #{song.artist}
+            span 
+            a(href='/album/#{song.album}', class='album') #{song.album}
+            span 
+            a(href='/fetch/#{song.id}', class='title', target='_blank') #{song.title}
     - }
