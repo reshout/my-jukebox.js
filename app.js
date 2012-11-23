@@ -9,6 +9,7 @@ var express = require('express')
   , fs = require('fs')
   , util = require('util')
   , url = require('url')
+  , settings = require('konphyg')(__dirname + '/config/')('server')
   , library = require('./library');
 
 var mimeTypes = {
@@ -61,7 +62,7 @@ var mimeTypes = {
 var app = express();
 
 app.configure(function() {
-  app.set('port', process.env.PORT || 57754);
+  app.set('port', process.env.PORT || settings.port);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
