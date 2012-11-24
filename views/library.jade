@@ -19,5 +19,8 @@ block content
                         span 
                         a(href='/album/#{song.album}', class='album') #{song.album}
                         span 
-                        a(href='/fetch/#{song.id}', class='title', target='_blank') #{song.title}
+                        a(onclick='changeaudio("/fetch/#{song.id}")', href='#', class='title') #{song.title}
                 - }
+     #audio
+        audio(controls='controls', id='audioctr')
+            source(src='/fetch/#{songArr[0].id}', type='audio/mpeg', id='aud_src')
