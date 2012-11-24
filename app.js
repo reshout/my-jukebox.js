@@ -82,11 +82,13 @@ app.get('/', function(req, res) {
 });
 
 app.get('/artist/:artist', function(req, res) {
-    res.render('library', { 'title' : req.params.artist, 'songArr' : library.getSongArrByArtist(req.params.artist) });
+    res.render('library', { 'title' : req.params.artist, 
+            'songArr' : library.getSongArrByArtist(decodeURIComponent(req.params.artist)) });
 });
 
 app.get('/album/:album', function(req, res) {
-    res.render('library', { 'title' : req.params.album, 'songArr' : library.getSongArrByAlbum(req.params.album) });
+    res.render('library', { 'title' : req.params.album, 
+            'songArr' : library.getSongArrByAlbum(decodeURIComponent(req.params.album)) });
 });
 
 app.get('/robots.txt', function(req, res) {
