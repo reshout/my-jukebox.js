@@ -77,6 +77,11 @@ app.configure('development', function() {
   app.use(express.errorHandler());
 });
 
+app.get('/search/:q', function (req, res) {
+    res.render('library', { 'title' : req.params.q, 
+            'songArr' : library.search(decodeURIComponent(req.params.q)) });
+});
+
 app.get('/', function(req, res) {
     res.render('library', { 'title' : 'my-jukebox.js', 'songArr' : library.getSongArr() });
 });

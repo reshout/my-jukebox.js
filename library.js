@@ -96,6 +96,17 @@ var putSongIntoAlbumMap = function(song) {
     }
 }
 
+exports.search = function (phrase) {
+    var list = [];
+    var regex = new RegExp(phrase, "gi");
+    songArr.forEach(function (element, index, array) {
+        if(element.artist.match(regex) || element.title.match(regex) || element.album.match(regex)) {
+            list.push(element);
+        }
+    });
+    return list;
+};
+
 exports.getSongArr = function() {
     return songArr.slice(0, songReadyIndex + 1);
 }
