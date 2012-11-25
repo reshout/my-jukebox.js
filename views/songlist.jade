@@ -1,6 +1,8 @@
 .overview
-    - var song, nextSong;
-    - for(var i = 0; i < songArr.length; i++) {
+    script
+        var listLength = #{songArr.length};
+    - var song, nextSong, i;
+    - for(i = 0; i < songArr.length; i++) {
     -     song = songArr[i];
     -     nextSong = songArr[i+1] || songArr[0];
             div
@@ -8,6 +10,7 @@
             span 
             a(onclick='changeSongList("/album/#{song.album}")', href='#', class='album') #{song.album}
             span 
-            a(onclick='changeaudio("/fetch/#{song.id}", "/fetch/#{nextSong.id}")', href='#', class='title') #{song.title}
+            a(onclick='changeaudio("/fetch/#{song.id}", #{i})', 
+            data-next='/fetch/#{nextSong.id}', id='song#{i}', href='#', class='title') #{song.title}
     - }
 
