@@ -1,11 +1,12 @@
-- var song;
-- for(var i = 0; i < songArr.length; i++) {
--     song = songArr[i];
-        div
-        a(onclick='changeSongList("/artist/#{song.artist}")', href='#', class='artist') #{song.artist}
-        span 
-        a(onclick='changeSongList("/album/#{song.album}")', href='#', class='album') #{song.album}
-        span 
-        a(onclick='changeaudio("/fetch/#{song.id}")', href='#', class='title') #{song.title}
-- }
+.overview
+    - var song;
+    - for(var i = 0; i < songArr.length; i++) {
+    -     song = songArr[i];
+            div
+            a(onclick='changeSongList("/artist/#{song.artist}")', href='#', class='artist') #{song.artist}
+            span 
+            a(onclick='changeSongList("/album/#{song.album}")', href='#', class='album') #{song.album}
+            span 
+            a(onclick='changeaudio("/fetch/#{song.id}", #{i})', href='#', class='title') #{song.title}
+    - }
 

@@ -10,10 +10,26 @@ $(document).ready(function() {
         // prevent scrolling 
         e.preventDefault();
     });
+
+    $('#audioctr').bind('ended', function () {
+        /*
+        var index = $('#aud_src').attr('data-index');
+        var aud = $('#audioctr').get(0);
+
+        if(!isNaN(index)) {
+            index = index < songArr.length ? index + 1 : 0;
+        }
+
+        $('#aud_src').attr('src', songArr[index]);
+        aud.load();
+        aud.play();
+        */
+    });
 });
 
-var changeaudio = function (path) {
+var changeaudio = function (path, index) {
     $('#aud_src').attr('src', path);
+    $('#aud_src').attr('data-index', index);
     var aud = $('#audioctr').get(0);
     aud.pause();
     aud.load();
@@ -23,7 +39,9 @@ var changeaudio = function (path) {
 var changeSongList = function (path) {
     $.get(path, function (data) {
         var overview = $('.overview');
-        overview.html(data);
+        var start = new Date().getTime();
+        overview.replaceWith(data);
+        console.log('after html change ' + (new Date().getTime() - start));
         $('#library').tinyscrollbar_update();
     });
 };

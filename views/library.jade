@@ -11,8 +11,7 @@ block content
                 .thumb
                     .end
         .viewport
-            .overview
-                include songlist
+            include songlist
     #audio
         audio(controls='controls', id='audioctr')
             source(src='/fetch/#{songArr[0].id}', type='audio/mpeg', id='aud_src')
