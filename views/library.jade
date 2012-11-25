@@ -2,7 +2,7 @@ extends layout
 
 block content
     #menu
-        a(href='/') Home
+        a(onclick='changeSongList("/home")', href='#') Home
         input(type="text", name="search", id="search")
     #library
         .scrollbar
@@ -11,16 +11,7 @@ block content
                     .end
         .viewport
             .overview
-                - var song;
-                - for(var i = 0; i < songArr.length; i++) {
-                -     song = songArr[i];
-                    div
-                        a(href='/artist/#{song.artist}', class='artist') #{song.artist}
-                        span 
-                        a(href='/album/#{song.album}', class='album') #{song.album}
-                        span 
-                        a(onclick='changeaudio("/fetch/#{song.id}")', href='#', class='title') #{song.title}
-                - }
-     #audio
+                include songlist
+    #audio
         audio(controls='controls', id='audioctr')
             source(src='/fetch/#{songArr[0].id}', type='audio/mpeg', id='aud_src')

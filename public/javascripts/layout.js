@@ -3,7 +3,7 @@ $(document).ready(function() {
     $('#search').keyup(function (event) {
         // Enter key
         if(event.keyCode == 13) {
-            document.location.href = '/search/' + $('#search').val();
+            changeSongList('/search/' + $('#search').val());
         }
     });
     $('.title').click(function (e) {
@@ -13,13 +13,18 @@ $(document).ready(function() {
 });
 
 var changeaudio = function (path) {
-    //var source = "<audio control='controls' id='audioctr'>";
-    //source += "<source src='" + path + "' type='audio/mpeg'>";
-    //source += "</audio>";
     $('#aud_src').attr('src', path);
     var aud = $('#audioctr').get(0);
     aud.pause();
     aud.load();
     aud.play();  
+};
+
+var changeSongList = function (path) {
+    $.get(path, function (data) {
+        var overview = $('.overview');
+        overview.html(data);
+        $('#library').tinyscrollbar_update();
+    });
 };
 
