@@ -39,9 +39,7 @@ var changeaudio = function (path, index) {
 var changeSongList = function (path) {
     $.get(path, function (data) {
         var overview = $('.overview');
-        var start = new Date().getTime();
         overview.replaceWith(data);
-        console.log('after html change ' + (new Date().getTime() - start));
         $('#library').tinyscrollbar_update();
     });
 };
