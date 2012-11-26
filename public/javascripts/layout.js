@@ -1,11 +1,23 @@
 $(document).ready(function() {
+    var keyboardTimer;
     $('#library').tinyscrollbar();
 
-    $('#search').keyup(function (event) {
+    $('#search').on('keyup', function (event) {
         // Enter key
         if(event.keyCode == 13) {
-            changeSongList('/search/' + $('#search').val());
+            searchWithKeyword();
         }
+        // back space and delete key
+        if(event.keyCode === 8 || event.keyCode === 46) {
+            if(keyboardTimer) clearTimeout(keyboardTimer);
+            keyboardTimer = setTimeout(function () { searchWithKeyword(); }, 300);
+        }
+        else if(/[a-z0-1]/gi.test(String.fromCharCode(event.keyCode))) {
+            console.log(String.fromCharCode(event.keyCode));
+            if(keyboardTimer) clearTimeout(keyboardTimer);
+            keyboardTimer = setTimeout(function () { searchWithKeyword(); }, 300);
+        }
+        
     });
     
     $('#audioctr').bind('ended', function () {
@@ -22,6 +34,17 @@ $(document).ready(function() {
 
     preventScrolling();
 });
+
+var searchWithKeyword = function () {
+    var value = $('#search').val();
+    if(value) {
+        value = '/search/' + value;
+    } else {
+        value = '/home';   
+    }
+
+    changeSongList(value);
+};
 
 var preventScrolling = function () {
     $('.title').click(function (e) {
