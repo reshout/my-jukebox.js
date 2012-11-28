@@ -10,7 +10,7 @@
             span 
             a(onclick='changeSongList("/album/#{song.album}")', href='#', class='album') #{song.album}
             span 
-            a(onclick='changeaudio("/fetch/#{song.id}", #{i})', 
-            data-next='/fetch/#{nextSong.id}', id='song#{i}', href='#', class='title') #{song.title}
+            a(onclick='changeaudio("/fetch/song/#{song.id}", #{i})', 
+            data-next='/fetch/song/#{nextSong.id}', id='song#{i}', href='#', class='title') #{song.title}
     - }
 

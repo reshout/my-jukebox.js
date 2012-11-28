@@ -31,20 +31,21 @@ app.configure('development', function() {
   app.use(express.errorHandler());
 });
 
+app.get('/', function(req, res) {
+    res.render('library', { 'title' : 'myjukebox.js', 'songArr' : library.getSongArr() });
+});
+
+app.get('/robots.txt', function(req, res) {
+    res.writeHead(200, { 'Content-Type' : 'text/plain' });
+    res.end('User-agent : *\ndisallow : /');
+});
+
 app.get('/search/:q', function (req, res) {
     res.render('songlist', { 'songArr' : library.search(decodeURIComponent(req.params.q)) });
 });
 
 app.get('/home', function (req, res) {
     res.render('songlist', { 'songArr' : library.getSongArr() });
-});
-
-app.get('/login', function(req, res) {
-    res.render('index', { 'title' : 'myjukebox.js'});
-});
-
-app.get('/', function(req, res) {
-    res.render('library', { 'title' : 'myjukebox.js', 'songArr' : library.getSongArr() });
 });
 
 app.get('/artist/:artist', function(req, res) {
@@ -55,12 +56,8 @@ app.get('/album/:album', function(req, res) {
     res.render('songlist', { 'songArr' : library.getSongArrByAlbum(decodeURIComponent(req.params.album)) });
 });
 
-app.get('/robots.txt', function(req, res) {
-    res.writeHead(200, { 'Content-Type' : 'text/plain' });
-    res.end('User-agent : *\ndisallow : /');
-});
-
-app.get('/fetch/:id', fetch.handleFetchSong);
+app.get('/fetch/song/:id', fetch.handleFetchSong);
+app.get('/fetch/cover/:id', fetch.handleFetchCover);
 
 library.init();
 

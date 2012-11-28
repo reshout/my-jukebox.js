@@ -48,6 +48,11 @@ var mimeTypes = {
     ".ts": "video/mp2t"
 };
 
+exports.handleFetchCover = function(req, res) {
+    res.writeHead(404);
+    res.end();
+};
+
 exports.handleFetchSong = function(req, res) {
     var ip;
     var stream;
