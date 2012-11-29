@@ -27,11 +27,14 @@ exports.init = function() {
     async.forEachSeries(songPathArray, function(songPath, callback) {
         mediainfo(songPath, function(err, res) {
             var song = {};
-            if (res && res[0] && res[0].performer && res[0].album && res[0].track_name) {
+            if (res && res[0] && res[0].performer && res[0].album && res[0].track_name && res[0].track_name_position) {
                 song.id = songArrayIndex++;
                 song.artist = res[0].performer;
                 song.title = res[0].track_name;
                 song.album = res[0].album;
+                song.track = parseInt(res[0].track_name_position, 10);
+                console.log(res);
+                if (res[0].genre) { console.log(res[0].genre); song.genre = res[0].genre; }
                 song.path = songPath;
                 songArray.push(song);
                 putSongIntoArtistMap(song);
@@ -101,11 +104,11 @@ exports.getSongByPhrase = function (phrase) {
             list.push(element);
         }
     });
-    return list;
+    return getSortedSongArray(list);
 };
 
 exports.getSongArray = function() {
-    return songArray;
+    return getSortedSongArray(songArray);
 }
 
 exports.getSongById = function(id) {
@@ -117,7 +120,7 @@ exports.getSongArrayByArtist = function(artist) {
     if (!list) {
         list = [];
     }
-    return list;
+    return getSortedSongArray(list);
 }
 
 exports.getSongArrayByAlbum = function(album) {
@@ -125,5 +128,22 @@ exports.getSongArrayByAlbum = function(album) {
     if (!list) {
         list = [];
     }
-    return songAlbumMap[album];
+    return getSortedSongArray(songAlbumMap[album]);
 }
+
+var getSortedSongArray = function(originalSongArray) {
+    sortedSongArray = originalSongArray.slice();
+    sortedSongArray.sort(function(a, b) {
+        if (a.artist > b.artist) return 1;
+        else if (a.artist < b.artist) return -1;
+
+        if (a.album > b.album) return 1;
+        else if (a.album < b.album) return -1;
+
+        if (a.track > b.track) return 1;
+        else if (a.track < b.track) return -1;
+
+        return 0;
+    });
+    return sortedSongArray;
+};

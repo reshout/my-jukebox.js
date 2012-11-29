@@ -11,6 +11,6 @@
             a(onclick='changeSongList("/album/#{song.album}")', href='#', class='album') #{song.album}
             span 
             a(onclick='changeaudio("/fetch/song/#{song.id}", #{i})', 
-            data-next='/fetch/song/#{nextSong.id}', id='song#{i}', href='#', class='title') #{song.title}
+            data-next='/fetch/song/#{nextSong.id}', id='song#{i}', href='#', class='title') #{song.track}. #{song.title}
     - }
 
