@@ -1,3 +1,6 @@
+config/server.json
+config/library.json
+
 lib-cov
 *.seed
 *.log

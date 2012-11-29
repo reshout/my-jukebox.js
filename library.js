@@ -4,7 +4,7 @@ var path = require('path');
 var settings = require('konphyg')(__dirname + '/config/')('library');
 var async = require('async');
 
-var musicDirs = settings.music_dirs;
+var musicFolders = settings.music_folders;
 var songArray = [];
 var songArrayIndex = 0;
 var songPathArray = [];
@@ -13,11 +13,11 @@ var songAlbumMap = {};
 
 exports.init = function() {
     var i;
-    var musicDir;
+    var musicFolder;
 
-    async.forEachSeries(musicDirs, function(musicDir, callback) {
-        console.log('scanning ' + musicDir);
-        scanMediaPath(musicDir);
+    async.forEachSeries(musicFolders, function(musicFolder, callback) {
+        console.log('scanning ' + musicFolder);
+        scanMediaPath(musicFolder);
         callback();
     },
     function(err) {
