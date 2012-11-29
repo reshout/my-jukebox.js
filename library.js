@@ -33,8 +33,6 @@ exports.init = function() {
                 song.title = res[0].track_name;
                 song.album = res[0].album;
                 song.track = parseInt(res[0].track_name_position, 10);
-                console.log(res);
-                if (res[0].genre) { console.log(res[0].genre); song.genre = res[0].genre; }
                 song.path = songPath;
                 songArray.push(song);
                 putSongIntoArtistMap(song);
