@@ -31,7 +31,8 @@ app.configure('development', function() {
 });
 
 app.get('/', function(req, res) {
-    res.render('library', { 'title' : 'myjukebox.js', 'songArr' : library.getSongArray() });
+    var songArray = library.getSongArray();
+    res.render('library', { 'title' : 'myjukebox.js (' + songArray.length + ' songs ready!)', 'songArray' : songArray });
 });
 
 app.get('/robots.txt', function(req, res) {
@@ -40,19 +41,19 @@ app.get('/robots.txt', function(req, res) {
 });
 
 app.get('/search/:qhrase', function (req, res) {
-    res.render('songlist', { 'songArr' : library.getSongByPhrase(decodeURIComponent(req.params.qhrase)) });
+    res.render('songlist', { 'songArray' : library.getSongByPhrase(decodeURIComponent(req.params.qhrase)) });
 });
 
 app.get('/home', function (req, res) {
-    res.render('songlist', { 'songArr' : library.getSongArray() });
+    res.render('songlist', { 'songArray' : library.getSongArray() });
 });
 
 app.get('/artist/:artist', function(req, res) {
-    res.render('songlist', { 'songArr' : library.getSongArrayByArtist(decodeURIComponent(req.params.artist)) });
+    res.render('songlist', { 'songArray' : library.getSongArrayByArtist(decodeURIComponent(req.params.artist)) });
 });
 
 app.get('/album/:album', function(req, res) {
-    res.render('songlist', { 'songArr' : library.getSongArrayByAlbum(decodeURIComponent(req.params.album)) });
+    res.render('songlist', { 'songArray' : library.getSongArrayByAlbum(decodeURIComponent(req.params.album)) });
 });
 
 app.get('/fetch/song/:id', fetch.handleFetchSong);

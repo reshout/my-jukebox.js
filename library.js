@@ -33,6 +33,7 @@ exports.init = function() {
                 song.title = res[0].track_name;
                 song.album = res[0].album;
                 song.track = parseInt(res[0].track_name_position, 10);
+                song.disc = parseInt(res[0].part_position, 10);
                 song.path = songPath;
                 songArray.push(song);
                 putSongIntoArtistMap(song);
@@ -134,6 +135,9 @@ var getSortedSongArray = function(originalSongArray) {
     sortedSongArray.sort(function(a, b) {
         if (a.artist > b.artist) return 1;
         else if (a.artist < b.artist) return -1;
+
+        if (a.disc > b.disc) return 1;
+        else if (a.disc < b.disc) return -1;
 
         if (a.album > b.album) return 1;
         else if (a.album < b.album) return -1;
