@@ -136,11 +136,11 @@ var getSortedSongArray = function(originalSongArray) {
         if (a.artist > b.artist) return 1;
         else if (a.artist < b.artist) return -1;
 
-        if (a.disc > b.disc) return 1;
-        else if (a.disc < b.disc) return -1;
-
         if (a.album > b.album) return 1;
         else if (a.album < b.album) return -1;
+
+        if (a.disc > b.disc) return 1;
+        else if (a.disc < b.disc) return -1;
 
         if (a.track > b.track) return 1;
         else if (a.track < b.track) return -1;
