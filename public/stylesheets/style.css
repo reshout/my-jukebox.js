@@ -12,20 +12,28 @@ a:hover {
   text-decoration:underline;
 }
 
-a.artist {
+.artist {
   color: #c22121;
   font-weight:bold;
 }
 
-a.album {
+.album {
   color: #25890c;
   font-weight:bold;
 }
 
-a.title {
+.title {
   color: #2189c6;
 }
 
+div.title {
+    display: inline;
+}
+
+div.artist {
+    display: inline;
+}
+#menu { width: 820px;}
 #library { width: 820px; clear: both; margin: 20px 0 10px; background-color: #EBEBEB; }
 #library .viewport { width: 800px; height: 600px; overflow: hidden; position: relative; }
 #library .overview { list-style: none; position: absolute; left: 0; top: 0; }

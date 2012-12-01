@@ -2,13 +2,28 @@ $(document).ready(function() {
     var keyboardTimer;
     $('#library').tinyscrollbar();
 
+    $(document).on('keyup', function (event) {
+        // Space should pause or resume music
+        if(event.keyCode == 32 && !$('#search').is(':focus')) {
+            event.preventDefault();
+            audioCtr = $('#audioctr').get(0);
+            if(audioCtr.paused) {
+                audioCtr.play();
+            }
+            else {
+                audioCtr.pause();
+            }
+        }
+    });
+
     $('#search').on('keyup', function (event) {
+        var audioCtr;
         // Enter key
         if(event.keyCode == 13) {
             searchWithKeyword();
         }
         // back space and delete key
-        if(event.keyCode === 8 || event.keyCode === 46) {
+        else if(event.keyCode === 8 || event.keyCode === 46) {
             if(keyboardTimer) clearTimeout(keyboardTimer);
             keyboardTimer = setTimeout(function () { searchWithKeyword(); }, 300);
         }
@@ -65,6 +80,15 @@ var changeaudio = function (path, id) {
     audioCtl.pause();
     audioCtl.load();
     audioCtl.play();  
+    
+    displaySongInfo(path.replace('song/', 'song/info/'));
+};
+
+var displaySongInfo = function (path) {
+    $.get(path, function (data) {
+        $('#playingTitle').html(data.title);
+        $('#playingArtist').html(data.artist);
+    });
 };
 
 var changeSongList = function (path) {

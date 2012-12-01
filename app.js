@@ -58,6 +58,7 @@ app.get('/album/:album', function(req, res) {
 
 app.get('/fetch/song/:id', fetch.handleFetchSong);
 app.get('/fetch/cover/:id', fetch.handleFetchCover);
+app.get('/fetch/song/info/:id', fetch.handleFetchInfo);
 
 library.init();
 
