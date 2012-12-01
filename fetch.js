@@ -55,8 +55,11 @@ exports.handleFetchCover = function(req, res) {
 
 exports.handleFetchInfo = function (req, res) {
     var song = library.getSongById(req.params.id);
-    delete song.path;
-    res.send(song);
+    var info = {
+        title : song.title,
+        artist : song.artist
+    };
+    res.send(info);
 };
 
 exports.handleFetchSong = function(req, res) {
