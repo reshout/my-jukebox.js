@@ -4,14 +4,21 @@ $(document).ready(function() {
 
     $(document).on('keyup', function (event) {
         // Space should pause or resume music
-        if(event.keyCode == 32 && !$('#search').is(':focus')) {
-            event.preventDefault();
-            audioCtr = $('#audioctr').get(0);
-            if(audioCtr.paused) {
-                audioCtr.play();
+        if(!$('#search').is(':focus')) {
+            if(event.keyCode === 32) {
+                event.preventDefault();
+                audioCtr = $('#audioctr').get(0);
+                if(audioCtr.paused) {
+                    audioCtr.play();
+                }
+                else {
+                    audioCtr.pause();
+                }
             }
-            else {
-                audioCtr.pause();
+            // 'n' key play next song
+            else if(event.keyCode === 78) {
+                event.preventDefault();
+                playNextSong();
             }
         }
     });
@@ -36,19 +43,23 @@ $(document).ready(function() {
     });
     
     $('#audioctr').bind('ended', function () {
-        var id = +$('#aud_src').attr('data-id');
-        var nextSong = $('#song' + id) && $('#song' + id).attr('data-next');
-        var nextId = id + 1;
-        
-        // this is when search result returns nothing
-        if(listLength == 0) nextId = -1;
-        // we've reached the end of the list
-        if(nextId == listLength) nextId = 0;
-        changeaudio(nextSong, nextId); 
+        playNextSong();
     });
 
     preventScrolling();
 });
+
+var playNextSong = function () {
+    var id = +$('#aud_src').attr('data-id');
+    var nextSong = $('#song' + id) && $('#song' + id).attr('data-next');
+    var nextId = id + 1;
+    
+    // this is when search result returns nothing
+    if(listLength == 0) nextId = -1;
+    // we've reached the end of the list
+    if(nextId == listLength) nextId = 0;
+    changeaudio(nextSong, nextId); 
+};
 
 var searchWithKeyword = function () {
     var value = $('#search').val();
@@ -85,9 +96,13 @@ var changeaudio = function (path, id) {
 };
 
 var displaySongInfo = function (path) {
+    $('#playing').hide();
+    
     $.get(path, function (data) {
+        
         $('#playingTitle').html(data.title);
         $('#playingArtist').html(data.artist);
+        $('#playing').fadeIn('slow');
     });
 };
 
