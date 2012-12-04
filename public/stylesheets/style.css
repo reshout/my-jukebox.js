@@ -33,9 +33,15 @@ div.title {
 div.artist {
     display: inline;
 }
-#menu { width: 820px;}
-#library { width: 820px; clear: both; margin: 20px 0 10px; background-color: #EBEBEB; }
-#library .viewport { width: 800px; height: 600px; overflow: hidden; position: relative; }
+
+html body {
+    min-width: 20em; 
+    max-width:1600px;
+}
+
+#playing { float : right; }
+#library { width: 100%; overflow: auto; clear: both; margin: 20px 0 10px; }
+#library .viewport { width: 100%; position: relative; }
 #library .overview { list-style: none; position: absolute; left: 0; top: 0; }
 #library .thumb .end,
 #library .thumb { background-color: #003D5D; }
@@ -44,3 +50,115 @@ div.artist {
 #library .thumb { height: 20px; width: 13px; cursor: pointer; overflow: hidden; position: absolute; top: 0; }
 #library .thumb .end { overflow: hidden; height: 5px; width: 13px; }
 #library .disable{ display: none; }
+
+.artist { width : 10%; }
+.album { width : 30%; }
+.title { width : 60%; }
+
+html table {
+    width: 100%;
+    table-layout:fixed;
+}
+
+td {
+    border-bottom: 1px solid #E9E9E9;
+    height: 29px;
+    line-height: 29px;
+    max-height: 29px;
+    min-height: 29px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-indent: 8px;
+    padding: 0;
+}
+
+div.fade-out-content {
+    float: left;
+    overflow: hidden;
+    width: 99%;
+}
+
+div.fade-out {
+    float: right;
+    background: no-repeat url(../images/sprite.png) -809px -280px;
+    width: 35px;
+    height: 20px;
+    margin-left: -35px;
+}
+
+#audio {
+    position:absolute;
+    bottom: 0;
+    left: 0;
+    height: 50px;
+    background: #666;
+    width: 100%;
+    color: white;
+    font-size: 2.5em;
+}
+
+#audioctr {
+    float: right;
+}
+
+a.control {
+    color: white;
+}
+
+a.control:hover {
+    color: #eee;
+    text-decoration: none;
+}
+/*
+#audio {
+    display: box;
+    box-orient: horizontal;
+
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+    
+    display: -moz-box;
+    -moz-box-orient: horizontal;
+}
+*/
+
+#audio {
+    display: inline-block;
+}
+
+#playdiv, #nextdiv, #timediv {
+    margin-left: 20px;
+    width: 130px;
+    display: inline-block;
+}
+
+#audiodiv {
+    float: right;
+    display: inline-block;   
+}
+
+@media only screen and (max-device-width: 720px) {
+    td.album { display: none; } 
+    .artist { width : 30%; }
+    .title { width : 70%; }
+    body { font: 2.5em "나눔고딕", "Malgun Gothic", "Lucida Grande", Helvetica, Arial, sans-serif; }
+    #search { height: 2em; }
+    td { margin-bottom: 5px;
+        height: 58px;
+        line-height: 58px;
+        max-height: 58px;
+        min-height: 58px;
+    }
+    #audio { height : 100px; font-size: 1.5em;}
+    #audioctr { display : none; }
+    #playdiv, #nextdiv, #timediv {
+        width: 160px;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    td.album { display: none; } 
+    .artist { width : 30%; }
+    .title { width : 70%; }
+    #audioctr { display : none; }
+}

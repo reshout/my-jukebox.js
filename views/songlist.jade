@@ -1,16 +1,25 @@
-.overview
+.viewport
     script
         var listLength = #{songArray.length};
-    - var song, nextSong, i;
-    - for(i = 0; i < songArray.length; i++) {
-    -     song = songArray[i];
-    -     nextSong = songArray[i+1] || songArray[0];
-            div
-            a(onclick='changeSongList("/artist/#{song.artist}")', href='#', class='artist') #{song.artist}
-            span 
-            a(onclick='changeSongList("/album/#{song.album}")', href='#', class='album') #{song.album}
-            span 
-            a(onclick='changeaudio("/fetch/song/#{song.id}", #{i})', 
-            data-next='/fetch/song/#{nextSong.id}', id='song#{i}', href='#', class='title') #{song.disc}-#{song.track}. #{song.title}
-    - }
+    table
+        tbody
+            - var song, nextSong, i;
+            - for(i = 0; i < songArray.length; i++) {
+            -     song = songArray[i];
+            -     nextSong = songArray[i+1] || songArray[0];
+                tr
+                    td.artist
+                        .fade-out-content
+                            a(onclick='changeSongList("/artist/#{song.artist}")', href='#', class='artist') #{song.artist}
+                        .fade-out
+                    td.album
+                        .fade-out-content
+                            a(onclick='changeSongList("/album/#{song.album}")', href='#', class='album') #{song.album}
+                        .fade-out
+                    td.title
+                        .fade-out-content
+                            a(onclick='changeaudio("/fetch/song/#{song.id}", #{i})', 
+                                data-next='/fetch/song/#{nextSong.id}', id='song#{i}', href='#', class='title') #{song.disc}-#{song.track}. #{song.title}
+                        .fade-out
+            - }
 
