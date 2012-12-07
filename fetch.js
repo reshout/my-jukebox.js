@@ -57,7 +57,8 @@ exports.handleFetchInfo = function (req, res) {
     var song = library.getSongById(req.params.id);
     var info = {
         title : song.title,
-        artist : song.artist
+        artist : song.artist,
+        duration : song.duration
     };
     res.send(info);
 };

@@ -10,6 +10,7 @@ var songArrayIndex = 0;
 var songPathArray = [];
 var songArtistMap = {};
 var songAlbumMap = {};
+var tmpSongMap = {};
 
 exports.init = function() {
     var i;
@@ -27,17 +28,30 @@ exports.init = function() {
     async.forEachSeries(songPathArray, function(songPath, callback) {
         mediainfo(songPath, function(err, res) {
             var song = {};
+            var songKey;
             if (res && res[0] && res[0].performer && res[0].album && res[0].track_name && res[0].track_name_position) {
-                song.id = songArrayIndex++;
                 song.artist = res[0].performer;
                 song.title = res[0].track_name;
                 song.album = res[0].album;
+                song.duration = res[0].duration;
                 song.track = parseInt(res[0].track_name_position, 10);
+                if(isNaN(song.track)) song.track = '';
                 song.disc = parseInt(res[0].part_position, 10);
+                if(isNaN(song.disc)) song.disc = '';
                 song.path = songPath;
-                songArray.push(song);
-                putSongIntoArtistMap(song);
-                putSongIntoAlbumMap(song);
+
+                songKey = song.artist.trim() + song.title.trim() + song.album.trim() + song.track;
+                if(tmpSongMap[songKey] === undefined) {
+                    song.id = songArrayIndex++;
+                    
+                    tmpSongMap[songKey] = song;   
+                    songArray.push(song);
+                    putSongIntoArtistMap(song);
+                    putSongIntoAlbumMap(song);
+                }
+                else {
+                    console.log('rejected ' + song.path);
+                }
             }
             callback();
         });

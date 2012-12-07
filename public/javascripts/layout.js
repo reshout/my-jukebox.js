@@ -1,18 +1,25 @@
 $(document).ready(function() {
     var keyboardTimer;
-    $('#library').tinyscrollbar();
+    var audioCtr = $('#audioctr').get(0);
+
+    $('#library').height($(document).height() - 140);
+    // added to remove stupid scrolls
+    $(document).on('keydown', function (event) {
+        if(!$('#search').is(':focus') && event.keyCode == 32) {
+            event.preventDefault();
+        }
+    });
 
     $(document).on('keyup', function (event) {
         // Space should pause or resume music
         if(!$('#search').is(':focus')) {
             if(event.keyCode === 32) {
                 event.preventDefault();
-                audioCtr = $('#audioctr').get(0);
                 if(audioCtr.paused) {
-                    audioCtr.play();
+                    playAudio();
                 }
                 else {
-                    audioCtr.pause();
+                    pauseAudio();
                 }
             }
             // 'n' key play next song
@@ -44,6 +51,32 @@ $(document).ready(function() {
     
     $('#audioctr').bind('ended', function () {
         playNextSong();
+    });
+
+    $('#play').on('click', function () {
+        if(audioCtr.paused) {
+            playAudio();
+        } else {
+            pauseAudio();
+        }
+    });
+
+    $('#next').on('click', function () {
+        playNextSong();
+    });
+
+    $(window).resize(function () {
+        $('#library').height($(document).height() - 140);
+    });
+
+    audioCtr.addEventListener('timeupdate', function () {
+        var d = new Date(audioCtr.currentTime * 1000);
+        var sec = d.getSeconds();
+        if(sec < 10) {
+            sec = '0' + sec;
+        }
+        $('#timediv').html(d.getMinutes() + ':' + sec);
+    
     });
 
     preventScrolling();
@@ -88,10 +121,10 @@ var changeaudio = function (path, id) {
     audioSrc.attr('src', path);
     audioSrc.attr('data-id', id);
     
-    audioCtl.pause();
+    pauseAudio();
     audioCtl.load();
-    audioCtl.play();  
-    
+    playAudio();
+     
     displaySongInfo(path.replace('song/', 'song/info/'));
 };
 
@@ -107,12 +140,22 @@ var displaySongInfo = function (path) {
 };
 
 var changeSongList = function (path) {
+    // save the current height
     $.get(path, function (data) {
-        var overview = $('.overview');
+        var overview = $('.viewport');
         overview.replaceWith(data);
-        // we need to reload the scroll and prevent a tag scrolling again
-        $('#library').tinyscrollbar();
         preventScrolling();
     });
 };
 
+var playAudio = function () {
+    var audioCtl = $('#audioctr').get(0);
+    audioCtl.play();
+    $('#play').html('Pause');
+};
+
+var pauseAudio = function () {
+    var audioCtl = $('#audioctr').get(0);
+    audioCtl.pause();
+    $('#play').html('Play');
+};

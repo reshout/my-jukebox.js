@@ -10,17 +10,18 @@ block content
         a(onclick='changeSongList("/home")', href='#') Home
         span 
         input(type="text", name="search", id="search")
-        #playing(style="float:right")
+        #playing
             #playingTitle(class="title") #{songArray[0].title}
             |  by 
             #playingArtist(class="artist") #{songArray[0].artist}
-    #library
-        .scrollbar
-            .track
-                .thumb
-                    .end
-        .viewport
-            include songlist
-    #audio
-        audio(controls='controls', id='audioctr')
-            source(src='/fetch/song/#{songArray[0].id}', type='audio/mpeg', id='aud_src')
+    #library(style="height:600px")
+        include songlist
+    #audio 
+        #playdiv
+            a.control(href='#', id='play') Play
+        #nextdiv
+            a.control(href='#', id='next') Next
+        #timediv 0:00
+        #audiodiv
+            audio(controls='controls', id='audioctr')
+                source(src='/fetch/song/#{songArray[0].id}', type='audio/mpeg', id='aud_src', data-id='0')
