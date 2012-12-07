@@ -98,7 +98,7 @@ exports.handleFetchSong = function(req, res) {
     downloadHeader(res, info);
 
     var username;
-    if (req.isAuthenticated || req.isAuthenticated()) {
+    if (req.isAuthenticated && req.isAuthenticated()) {
         username = JSON.stringify(req.getAuthDetails().user.name);
     } else {
         username = 'unknown';
