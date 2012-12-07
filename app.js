@@ -4,6 +4,7 @@
 
 var express = require('express')
   , http = require('http')
+  , auth = require('connect-auth')
   , path = require('path')
   , fs = require('fs')
   , util = require('util')
@@ -14,6 +15,10 @@ var express = require('express')
 
 var app = express();
 
+var loginWithGoogle2 = function () {
+    return (settings.google2Id && settings.google2Secret && settings.google2CallbackAddress);
+};
+
 app.configure(function() {
   app.set('port', process.env.PORT || settings.port);
   app.set('views', __dirname + '/views');
@@ -22,6 +27,20 @@ app.configure(function() {
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  if (loginWithGoogle2()) {
+      app.use(express.cookieParser());
+      app.use(express.session({secret: 'secrets'}));
+      app.use(auth(auth.Google2({appId : settings.google2Id, appSecret: settings.google2Secret, callback: settings.google2CallbackAddress, requestEmailPermission: true})));
+      app.use(function(req, res, next) {
+        req.authenticate(['google2'], function(err, authenticated) {
+            if (err || !authenticated) {
+                ;
+            } else {
+                next();
+            }
+        });
+      });
+  }
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 });
@@ -31,8 +50,9 @@ app.configure('development', function() {
 });
 
 app.get('/', function(req, res) {
+    console.log(req.getAuthDetails().user);
     var songArray = library.getSongArray();
-    res.render('library', { 'title' : 'myjukebox.js (' + songArray.length + ' songs ready!)', 'songArray' : songArray });
+    res.render('library', { 'user' : req.getAuthDetails().user, 'title' : 'myjukebox.js (' + songArray.length + ' songs ready!)', 'songArray' : songArray });
 });
 
 app.get('/robots.txt', function(req, res) {

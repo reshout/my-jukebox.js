@@ -1,3 +1,6 @@
 {
-    "port" : 57754
+    "port" : 57754,
+    "google2Id" : "",
+    "google2Secret" : "",
+    "google2CallbackAddress" : ""
 }

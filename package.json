@@ -10,6 +10,10 @@
     "jade": "*",
     "mediainfo": "*",
     "konphyg": "*",
-    "async": "*"
+    "async": "*",
+    "connect": "*",
+    "connect-auth": "*",
+    "oauth": "*",
+    "openid": "*"
   }
 }

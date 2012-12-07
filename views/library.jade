@@ -1,5 +1,11 @@
 extends layout
 block content
+    #user
+        img(src='#{user.picture}', height='40', width='40')
+        &nbsp;
+        span #{user.email} #{user.name}
+        br
+        br
     #menu
         a(onclick='changeSongList("/home")', href='#') Home
         span 
