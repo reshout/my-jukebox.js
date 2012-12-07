@@ -53,7 +53,7 @@ app.get('/', function(req, res) {
     var user;
     if (loginWithGoogle2()) {
         user = req.getAuthDetails().user;
-        console.log('user=' + user);
+        console.log('user=' + JSON.stringify(user));
     }
     var songArray = library.getSongArray();
     res.render('index', { 'user' : user, 'title' : 'myjukebox.js (' + songArray.length + ' songs ready!)', 'songArray' : songArray });

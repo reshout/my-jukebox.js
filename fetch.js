@@ -97,8 +97,15 @@ exports.handleFetchSong = function(req, res) {
 
     downloadHeader(res, info);
 
+    var username;
+    if (req.isAuthenticated || req.isAuthenticated()) {
+        username = JSON.stringify(req.getAuthDetails().user.name);
+    } else {
+        username = 'unknown';
+    }
+
     ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
-    console.log('ip=' + ip + ',id=' + req.params.id + ',start=' + info.start + ',end=' + info.end + ',song=' + JSON.stringify(song));
+    console.log('username=' + username + ',id=' + req.params.id + ',start=' + info.start + ',end=' + info.end + ',song=' + JSON.stringify(song));
 
     stream = fs.createReadStream(info.path, { flags: "r", start: info.start, end: info.end });
     stream.pipe(res);
