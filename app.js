@@ -50,9 +50,13 @@ app.configure('development', function() {
 });
 
 app.get('/', function(req, res) {
-    console.log(req.getAuthDetails().user);
+    var user;
+    if (loginWithGoogle2()) {
+        user = req.getAuthDetails().user;
+        console.log('user=' + user);
+    }
     var songArray = library.getSongArray();
-    res.render('library', { 'user' : req.getAuthDetails().user, 'title' : 'myjukebox.js (' + songArray.length + ' songs ready!)', 'songArray' : songArray });
+    res.render('index', { 'user' : user, 'title' : 'myjukebox.js (' + songArray.length + ' songs ready!)', 'songArray' : songArray });
 });
 
 app.get('/robots.txt', function(req, res) {
