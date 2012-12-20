@@ -105,7 +105,7 @@ exports.handleFetchSong = function(req, res) {
     }
 
     ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
-    console.log('username=' + username + ',id=' + req.params.id + ',start=' + info.start + ',end=' + info.end + ',song=' + JSON.stringify(song));
+    console.log('date=' + new Date() + ',username=' + username + ',id=' + req.params.id + ',start=' + info.start + ',end=' + info.end + ',song=' + JSON.stringify(song));
 
     stream = fs.createReadStream(info.path, { flags: "r", start: info.start, end: info.end });
     stream.pipe(res);
